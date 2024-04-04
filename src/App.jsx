@@ -9,7 +9,7 @@ function App() {
     <div className="bg-[#222831] w-[100vw] h-[100vh] flex items-center justify-center">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<SignUp />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/sendmoney" element={<SendMoney />} />
