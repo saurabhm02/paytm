@@ -10,9 +10,18 @@ const jwt_secret = process.env.JWT_SECRET;
 const signupSchema = zod.object({
     firstName: zod.string(),
     lastName: zod.string(),
-    userName: zod.string(),
-    email: zod.string().email(),
-    password: zod.string().min(6), 
+    userName: zod.string({
+        required_error: "Username is required",
+        invalid_type_error: "Username must be a string",
+    }).min(3).trim().toLowerCase(),
+    email: zod.string({
+        required_error: "email is required",
+    }).trim().toLowerCase(),
+    password: zod.string({
+        required_error: "Password is required",
+        invalid_type_error: "Password must be a string",
+    }).min(4,
+        { message: "Password must be longer than 4 Characters!" }),
 });
 
 exports.signup = async (req, res) => {
@@ -59,11 +68,16 @@ exports.signup = async (req, res) => {
             userId,
             balance: 1 + Math.random() * 10000
         });
+        
+        user.account = account._id;
+        await user.save();
+
+        const populatedUser = await User.findById(user._id).populate('account');
 
         return res.status(201).json({
             success: true,
             message: "User created successfully",
-            user,
+            user: populatedUser,
         });
     } catch (error) {
         console.error("Error in signup", error);
@@ -74,8 +88,14 @@ exports.signup = async (req, res) => {
     }
 };
 const signinBody = zod.object({
-    email: zod.string().email(),
-	password: zod.string()
+    email: zod.string({
+        required_error: "email is required",
+    }).trim().toLowerCase(),
+	password: zod.string({
+        required_error: "Password is required",
+        invalid_type_error: "Password must be a string",
+    }).min(4,
+        { message: "Password must be longer than 4 Characters!" }),
 })
 
 exports.login = async (req, res) => {
@@ -134,7 +154,10 @@ exports.login = async (req, res) => {
 };
 
 const updateBody = zod.object({
-	password: zod.string().optional(),
+	password: zod.string({
+        required_error: "Password is required",
+        invalid_type_error: "Password must be a string",
+    }).min(3).trim(),
     firstName: zod.string().optional(),
     lastName: zod.string().optional(),
 });
@@ -169,15 +192,20 @@ exports.updateUser = async(req, res) =>{
 exports.getUsers = async(req, res) => {
     try{
         const filter = req.query.filter || "";
+
         const users = await User.find({
             $or: [{
                 firstName: {
                     "$regex": filter
                 }
-            } , {
-                lastName: [{
-                    "$regex" : filter
-                }]
+            }, {
+                lastName: {
+                    "$regex": filter
+                }
+            },{
+                userName: {
+                    "$regex": filter
+                }
             }]
         });
 
@@ -188,6 +216,7 @@ exports.getUsers = async(req, res) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email,
+                image: user.image,
                 _id: user._id
             }))
         })

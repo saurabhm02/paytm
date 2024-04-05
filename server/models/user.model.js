@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
     },
     image: {
         type: String,
+    },
+    account: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Account",
     }
 }, {timestamps: true});
 
