@@ -30,7 +30,7 @@ const Dashboard = () => {
   return (
     <div>
       <AppBar user={user}/>
-      <div className="h-full w-screen px-24  mt-[-13rem] flex flex-col gap-8">
+      <div className="h-full w-screen px-24 mt-[-6rem] flex flex-col gap-8">
         <Balance value={balance} />
         <Users currentUser={user}/>
       </div>

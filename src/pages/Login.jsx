@@ -7,6 +7,7 @@ import { Button } from '../components/Button';
 import { BottomMessage } from '../components/BottomMessage';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
 
@@ -38,6 +39,9 @@ const Login = () => {
                 );
                 localStorage.setItem("token", response.data.token);
                 localStorage.setItem("user", JSON.stringify(response.data.user));
+                const userData = localStorage.getItem("user");
+                const user = userData ? JSON.parse(userData) : null;
+                toast.success(`Welcome, ${user.userName}`);
                 navigate("/");
               } catch (error) {
                 console.error("Error during login:", error);

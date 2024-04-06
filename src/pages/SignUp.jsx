@@ -7,6 +7,7 @@ import signup from "../assets/signup.png"
 import { BottomMessage } from '../components/BottomMessage';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [firstName, setFirstName ] = useState("");
@@ -44,6 +45,7 @@ const SignUp = () => {
                     password,
                   });
                   navigate("/login");
+                  toast.success("Account created successfully");
                 } catch (error) {
                   console.error("Error during signup:", error);
                 }

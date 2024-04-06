@@ -4,12 +4,15 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import SendMoney from './pages/SendMoney';
 import Protected from './components/Protected';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   
   return (
     
     <div className="bg-[#222831] w-[100vw] h-[100vh] flex items-center justify-center">
+      <ToastContainer/>
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<SignUp />} />

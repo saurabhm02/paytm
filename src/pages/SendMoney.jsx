@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const SendMoney = () => {
 
@@ -49,6 +50,7 @@ const SendMoney = () => {
                         Authorization: "Bearer " + localStorage.getItem("token")
                       }
                     });
+                    toast.success("money transfer successfully");
                     navigate("/");
                   }} className="justify-center items-center rounded-md font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-[#00FFF5] text-[#222831] text-lg">
                       Initiate Transfer
