@@ -9,7 +9,10 @@ const app = express();
 const PORT = process.env.PORT;
 dbConnect();
 
-app.use(cors());
+app.use(cors({
+    origin: "https://paytmlike.vercel.app",
+    credentials: true,
+}));
 app.use(express.json());
 app.use("/api/v1", allRoutes);
 
