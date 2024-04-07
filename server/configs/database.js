@@ -4,7 +4,9 @@ require("dotenv").config();
 const db_url = process.env.DATABASE_URL;
 
 const dbConnect = async()=>{
-    mongoose.connect(db_url)
+    mongoose.connect(db_url , {
+        bufferCommands: false
+    })
     .then(()=>{
         console.log("Connected to database");
     })
