@@ -9,9 +9,15 @@ const app = express();
 const PORT = process.env.PORT;
 dbConnect();
 
-app.use(cors({
-    origin: "https://paytmlike.vercel.app/",
-}));
+
+const corsOptions = {
+    origin: ['https://paytmlike.vercel.app', 'http://localhost:4000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+};
+
+app.use(cors(corsOptions));
+
+
 app.use(express.json());
 app.use("/api/v1", allRoutes);
 
